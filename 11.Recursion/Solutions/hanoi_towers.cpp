@@ -15,7 +15,10 @@ void arrange_hanoi_towers(int n, char* from, char* to, char* extra) {
 int main() {
     int n;
     std::cin >> n;
+    char a[] = "A";
+    char b[] = "B";
+    char c[] = "C";
 
-    arrange_hanoi_towers(n, "A", "C", "B");
+    arrange_hanoi_towers(n, a, c, b);
     return 0;
 }
