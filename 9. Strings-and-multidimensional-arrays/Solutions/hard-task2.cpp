@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 #include <cstring>
 const int MAX_SIZE = 1024;
