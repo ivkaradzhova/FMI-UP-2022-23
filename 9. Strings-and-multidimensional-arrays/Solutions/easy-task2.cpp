@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 const int MAX_SIZE = 1024;
 
