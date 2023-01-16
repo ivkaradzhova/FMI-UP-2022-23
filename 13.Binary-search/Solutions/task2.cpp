@@ -1,73 +1,71 @@
-#include <cmath>
-#include <cstdio>
 #include <iostream>
-#include <algorithm>
 using namespace std;
 
-struct Node
-{
-public:
-    long long start;
-    long long duration;
-    long long end;
+void Merge(long long* arrStart, long long* arrDuration, long long* arrEnd, long long start, long long middle, long long end);
 
-    bool operator<= (const Node& other)
-    {
-        return this->end <= other.end;
-    }
-};
-
-void Merge(Node* arr, long long start, long long middle, long long end);
-
-void MergeSort(Node* arr, long long start, long long end)
+void MergeSort(long long* arrStart, long long* arrDuration, long long* arrEnd, long long start, long long end)
 {
     if (start < end)
     {
         long long middle = (start + end) / 2;
-        MergeSort(arr, start, middle);
-        MergeSort(arr, middle + 1, end);
-        Merge(arr, start, middle, end);
+        MergeSort(arrStart, arrDuration, arrEnd, start, middle);
+        MergeSort(arrStart, arrDuration, arrEnd, middle + 1, end);
+        Merge(arrStart, arrDuration, arrEnd, start, middle, end);
     }
     return;
 }
 
-void Merge(Node* arr, long long start, long long middle, long long end)
+void Merge(long long* arrStart, long long* arrDuration, long long* arrEnd, long long start, long long middle, long long end)
 {
     long long i = start;
     long long j = middle + 1;
     long long k = 0;
-    Node* tempArr = new Node[end - start + 1];
+    long long* tempArrStart = new long long[end - start + 1];
+    long long* tempArrDuration = new long long[end - start + 1];
+    long long* tempArrEnd = new long long[end - start + 1];
     while (i <= middle && j <= end)
     {
-        if (arr[i] <= arr[j])
+        if (arrEnd[i] <= arrEnd[j])
         {
-            tempArr[k] = arr[i];
+            tempArrStart[k] = arrStart[i];
+            tempArrDuration[k] = arrDuration[i];
+            tempArrEnd[k] = arrEnd[i];
             i++;
         }
         else
         {
-            tempArr[k] = arr[j];
+            tempArrStart[k] = arrStart[j];
+            tempArrDuration[k] = arrDuration[j];
+            tempArrEnd[k] = arrEnd[j];
             j++;
         }
         k++;
     }
     while (i <= middle)
     {
-        tempArr[k] = arr[i];
+        tempArrStart[k] = arrStart[i];
+        tempArrDuration[k] = arrDuration[i];
+        tempArrEnd[k] = arrEnd[i];
         i++;
         k++;
     }
     while (j <= end)
     {
-        tempArr[k] = arr[j];
+        tempArrStart[k] = arrStart[j];
+        tempArrDuration[k] = arrDuration[j];
+        tempArrEnd[k] = arrEnd[j];
         j++;
         k++;
     }
     for (long long index = 0; index < k; index++)
     {
-        arr[start + index] = tempArr[index];
+        arrStart[start + index] = tempArrStart[index];
+        arrDuration[start + index] = tempArrDuration[index];
+        arrEnd[start + index] = tempArrEnd[index];
     }
-    delete[] tempArr;
+    delete[] tempArrStart;
+    delete[] tempArrDuration;
+    delete[] tempArrEnd;
     return;
 }
 
@@ -90,27 +88,31 @@ int main() {
         return 0;
     }
 
-    Node* nodes = new Node[number];
+    long long* eventsStart = new long long[number];
+    long long* eventsDuration = new long long[number];
+    long long* eventsEnd = new long long[number];
     for (long long i = 0; i < number; i++)
     {
-        cin >> nodes[i].start;
-        cin >> nodes[i].duration;
-        nodes[i].end = nodes[i].start + nodes[i].duration;
+        cin >> eventsStart[i];
+        cin >> eventsDuration[i];
+        eventsEnd[i] = eventsStart[i] + eventsDuration[i];
     }
 
-    MergeSort(nodes, 0, number-1);
+    MergeSort(eventsStart, eventsDuration, eventsEnd, 0, number - 1);
 
     long long index = 0;
-    for(long long i=1; i<number; i++)
+    for (long long i = 1; i < number; i++)
     {
-        if(nodes[i].start>=nodes[index].end)
+        if (eventsStart[i] >= eventsEnd[index])
         {
-            index=i;
+            index = i;
             counter++;
         }
     }
 
     cout << counter;
-    delete[] nodes;
+    delete[] eventsStart;
+    delete[] eventsDuration;
+    delete[] eventsEnd;
     return 0;
 }
