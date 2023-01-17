@@ -12,7 +12,6 @@ void MergeSort(long long* arrStart, long long* arrDuration, long long* arrEnd, l
         MergeSort(arrStart, arrDuration, arrEnd, middle + 1, end);
         Merge(arrStart, arrDuration, arrEnd, start, middle, end);
     }
-    return;
 }
 
 void Merge(long long* arrStart, long long* arrDuration, long long* arrEnd, long long start, long long middle, long long end)
@@ -66,7 +65,6 @@ void Merge(long long* arrStart, long long* arrDuration, long long* arrEnd, long 
     delete[] tempArrStart;
     delete[] tempArrDuration;
     delete[] tempArrEnd;
-    return;
 }
 
 int main() {
